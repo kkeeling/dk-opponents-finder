@@ -6,17 +6,33 @@ function isDraftKingsLobbyPage() {
 
 // Function to scan the lobby page for contests
 function scanLobbyPage() {
-  const contestRows = document.querySelectorAll('.lobby-card');
+  const contestRows = document.querySelectorAll('.slick-row');
   const contests = [];
 
   contestRows.forEach(row => {
-    const contestId = row.getAttribute('data-contest-id');
-    const entryCount = row.querySelector('.entries-count')?.textContent.trim();
+    const cells = row.querySelectorAll('.slick-cell');
+    if (cells.length >= 8) {
+      const nameCell = cells[1].querySelector('a');
+      const contestId = nameCell ? nameCell.id.split('_')[1] : null;
+      const contestName = nameCell ? nameCell.textContent : '';
+      const entryFeeCell = cells[3].querySelector('.grid-text-with-icon');
+      const entryFee = entryFeeCell ? entryFeeCell.textContent.trim() : '';
+      const entriesCell = cells[5].querySelector('.grid-text-with-icon');
+      const entries = entriesCell ? entriesCell.textContent.split('/') : [];
+      const currentEntries = entries[0] ? parseInt(entries[0], 10) : 0;
+      const maxEntries = entries[1] ? parseInt(entries[1], 10) : 0;
+      const startTimeCell = cells[6].querySelector('.cntr');
+      const startTime = startTimeCell ? startTimeCell.textContent : '';
 
-    if (contestId && entryCount) {
-      const numEntries = parseInt(entryCount, 10);
-      if (numEntries <= 5) {
-        contests.push({ id: contestId, entries: numEntries });
+      if (contestId && maxEntries <= 5) {
+        contests.push({
+          id: contestId,
+          name: contestName,
+          entryFee: entryFee,
+          currentEntries: currentEntries,
+          maxEntries: maxEntries,
+          startTime: startTime
+        });
       }
     }
   });
@@ -106,19 +122,59 @@ async function fetchAndProcessContests(contests) {
   return processedContests;
 }
 
+// Debounce function to limit the rate of function calls
+function debounce(func, wait) {
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+}
+
+// Function to handle contest grid changes
+async function handleContestGridChanges() {
+  console.log('DraftKings Opponents Finder: Detected changes in contest grid, rescanning...');
+  const eligibleContests = scanLobbyPage();
+  console.log('Eligible contests:', eligibleContests);
+  
+  if (eligibleContests.length > 0) {
+    console.log('Fetching contest details...');
+    const processedContests = await fetchAndProcessContests(eligibleContests);
+    console.log('Processed contests:', processedContests);
+    // TODO: Use processedContests to update the UI or send to background script
+  }
+}
+
+// Debounced version of handleContestGridChanges
+const debouncedHandleContestGridChanges = debounce(handleContestGridChanges, 500);
+
+// Function to set up the MutationObserver
+function setupContestGridObserver() {
+  const targetNode = document.querySelector('.grid-canvas');
+  if (!targetNode) {
+    console.error('DraftKings Opponents Finder: Could not find contest grid');
+    return;
+  }
+
+  const observerOptions = {
+    childList: true,
+    subtree: true
+  };
+
+  const observer = new MutationObserver(debouncedHandleContestGridChanges);
+  observer.observe(targetNode, observerOptions);
+}
+
 // Main function to run when the content script is injected
 async function main() {
   if (isDraftKingsLobbyPage()) {
-    console.log('DraftKings Opponents Finder: Scanning lobby page...');
-    const eligibleContests = scanLobbyPage();
-    console.log('Eligible contests:', eligibleContests);
-    
-    if (eligibleContests.length > 0) {
-      console.log('Fetching contest details...');
-      const processedContests = await fetchAndProcessContests(eligibleContests);
-      console.log('Processed contests:', processedContests);
-      // TODO: Use processedContests to update the UI or send to background script
-    }
+    console.log('DraftKings Opponents Finder: Initializing on lobby page...');
+    await handleContestGridChanges(); // Initial scan
+    setupContestGridObserver(); // Set up observer for future changes
   }
 }
 
