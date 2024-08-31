@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DraftKings Opponent Finder Chrome Extension - Core Requirements</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #1e90ff;
+        }
+        .requirement {
+            margin-bottom: 20px;
+            border-left: 4px solid #1e90ff;
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>DraftKings Opponent Finder Chrome Extension: Core Requirements</h1>
+    
+    <h2>1. User Interface</h2>
+    <div class="requirement">
+        <p>1.1. Create a simple, unobtrusive overlay that displays opponent experience information on the DraftKings lobby page.</p>
+        <p>1.2. Implement a toggle switch to enable/disable the extension functionality.</p>
+    </div>
+    
+    <h2>2. Data Collection and Processing</h2>
+    <div class="requirement">
+        <p>2.1. Develop a method to scan the DraftKings lobby page for contests with 5 or fewer entries.</p>
+        <p>2.2. Extract opponent badge information for each eligible contest.</p>
+        <p>2.3. Process and categorize opponent experience levels based on badge types:
+            <ul>
+                <li>Most experienced: 2 downward arrows with horizontal line</li>
+                <li>Medium experienced: 2 downward arrows without horizontal line</li>
+                <li>Low experienced: 1 downward arrow</li>
+                <li>Beginner: No badge</li>
+            </ul>
+        </p>
+    </div>
+    
+    <h2>3. Information Display</h2>
+    <div class="requirement">
+        <p>3.1. For each eligible contest, display a summary of opponent experience levels:
+            <ul>
+                <li>Number of most experienced opponents</li>
+                <li>Number of medium experienced opponents</li>
+                <li>Number of low experienced opponents</li>
+                <li>Number of beginners</li>
+            </ul>
+        </p>
+        <p>3.2. Implement a color-coding system to quickly identify contests with a higher proportion of less experienced opponents.</p>
+    </div>
+    
+    <h2>4. Performance and Efficiency</h2>
+    <div class="requirement">
+        <p>4.1. Optimize the extension to minimize impact on page load times and overall browsing experience.</p>
+        <p>4.2. Implement efficient data processing to handle real-time updates as the user navigates through the lobby.</p>
+    </div>
+    
+    <h2>5. Privacy and Security</h2>
+    <div class="requirement">
+        <p>5.1. Ensure the extension does not collect or store any personal user data.</p>
+        <p>5.2. Implement secure communication protocols if any data needs to be transmitted.</p>
+        <p>5.3. Comply with all relevant data protection regulations and DraftKings' terms of service.</p>
+    </div>
+    
+    <h2>6. Compliance with DraftKings Policies</h2>
+    <div class="requirement">
+        <p>6.1. Ensure the extension does not facilitate any form of collusion or group play.</p>
+        <p>6.2. Do not implement any features that could be used to bypass DraftKings' maximum entry limits.</p>
+        <p>6.3. Avoid any functionality that could be interpreted as creating pre-built lineups or bypassing the need for user skill.</p>
+    </div>
+    
+    <h2>7. User Education</h2>
+    <div class="requirement">
+        <p>7.1. Provide clear instructions on how to use the extension responsibly and in compliance with DraftKings' terms of service.</p>
+        <p>7.2. Include disclaimers about the importance of fair play and adherence to DraftKings' community guidelines.</p>
+    </div>
+    
+    <h2>8. Maintenance and Updates</h2>
+    <div class="requirement">
+        <p>8.1. Develop a system to monitor changes in DraftKings' website structure that might affect the extension's functionality.</p>
+        <p>8.2. Implement an update mechanism to quickly address any issues or changes in DraftKings' platform.</p>
+    </div>
+</body>
+</html>

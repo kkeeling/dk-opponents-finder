@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DraftKings Opponent Finder Chrome Extension - Design & Technical Solution</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2, h3 {
+            color: #1e90ff;
+        }
+        .section {
+            margin-bottom: 20px;
+            border-left: 4px solid #1e90ff;
+            padding-left: 20px;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>DraftKings Opponent Finder Chrome Extension: Design & Technical Solution</h1>
+    
+    <h2>1. Architecture Overview</h2>
+    <div class="section">
+        <p>The extension will be built using a client-side only architecture to ensure user privacy and minimize potential security risks. It will consist of the following components:</p>
+        <ul>
+            <li>Manifest file (manifest.json)</li>
+            <li>Background script (background.js)</li>
+            <li>Content script (content.js)</li>
+            <li>Popup interface (popup.html, popup.js, popup.css)</li>
+        </ul>
+    </div>
+    
+    <h2>2. Technologies and Versions</h2>
+    <div class="section">
+        <ul>
+            <li>Chrome Extension Manifest V3</li>
+            <li>JavaScript (ES6+)</li>
+            <li>HTML5</li>
+            <li>CSS3</li>
+            <li>Chrome Storage API for user preferences</li>
+        </ul>
+    </div>
+    
+    <h2>3. Component Details</h2>
+    <div class="section">
+        <h3>3.1 Manifest File (manifest.json)</h3>
+        <p>Defines the extension's permissions, scripts, and resources.</p>
+        
+        <h3>3.2 Background Script (background.js)</h3>
+        <p>Handles extension lifecycle events and communicates with the content script.</p>
+        
+        <h3>3.3 Content Script (content.js)</h3>
+        <p>Responsible for:
+            <ul>
+                <li>Scanning the DraftKings lobby page for contests</li>
+                <li>Fetching contest details for eligible contests</li>
+                <li>Extracting and processing opponent badge information</li>
+                <li>Calculating contest ratings</li>
+                <li>Injecting the overlay with processed information and ratings</li>
+            </ul>
+        </p>
+        
+        <h3>3.4 Popup Interface</h3>
+        <p>Provides user controls:
+            <ul>
+                <li>Toggle extension on/off</li>
+                <li>Display usage instructions and fair play reminders</li>
+            </ul>
+        </p>
+    </div>
+    
+    <h2>4. Data Flow and Processing</h2>
+    <div class="section">
+        <ol>
+            <li>Content script activates when user navigates to DraftKings lobby</li>
+            <li>Script scans page for contests and their entry counts</li>
+            <li>For each contest, the script fetches the contest details page</li>
+            <li>Parse the contest details HTML to extract opponent information</li>
+            <li>Process opponent data to categorize experience levels</li>
+            <li>Calculate contest rating based on opponent experience levels</li>
+            <li>Generate and inject an overlay with summarized opponent information and rating</li>
+        </ol>
+    </div>
+    
+    <h2>5. Detailed Workflow</h2>
+    <div class="section">
+        <h3>5.1 Scanning the Lobby Page</h3>
+        <p>
+            The content script will use JavaScript to scan the DraftKings lobby page, looking for contest rows and extracting the following information:
+            <ul>
+                <li>Contest ID (from the row's data attributes or links)</li>
+                <li>Number of entries (from the "Entries" column)</li>
+            </ul>
+        </p>
+
+        <h3>5.2 Fetching Contest Details</h3>
+        <p>
+            For each contest, the script will fetch the contest details page using the URL format:
+            <code>https://www.draftkings.com/contest/detailspop?contestId=XXX</code>
+            where XXX is the contest ID.
+        </p>
+
+        <h3>5.3 Parsing Opponent Data</h3>
+        <p>
+            The script will parse the HTML of the contest details page, focusing on the entrants table:
+            <ul>
+                <li>Look for table rows within the element with id "entrants-table"</li>
+                <li>For each row, extract opponent information from the &lt;span&gt; elements</li>
+                <li>Categorize opponents based on their experience badge class:
+                    <ul>
+                        <li>No badge: Beginner (0 points)</li>
+                        <li>class="icon-experienced-user-1": Low experience (1 point)</li>
+                        <li>class="icon-experienced-user-3": Medium experience (2 points)</li>
+                        <li>class="icon-experienced-user-5": High experience (3 points)</li>
+                    </ul>
+                </li>
+            </ul>
+        </p>
+
+        <h3>5.4 Data Processing and Rating Calculation</h3>
+        <p>
+            The script will process the opponent data and calculate the contest rating:
+            <ol>
+                <li>Count the number of opponents in each experience category</li>
+                <li>Calculate the score by summing the experience points:
+                    <code>(0 * beginners) + (1 * low) + (2 * medium) + (3 * high)</code>
+                </li>
+                <li>Calculate the max_score:
+                    <code>total_entrants * 3</code>
+                </li>
+                <li>Calculate the rating:
+                    <code>(score / max_score) * 100</code>
+                </li>
+            </ol>
+        </p>
+    </div>
+    
+    <h2>6. User Interface Design</h2>
+    <div class="section">
+        <p>The extension will use a minimalistic design to avoid cluttering the DraftKings interface:</p>
+        <ul>
+            <li>Colored dots overlaid on each contest in the lobby, indicating the rating:
+                <ul>
+                    <li>Green: Lowest ratings (best opportunity)</li>
+                    <li>Yellow: Medium ratings</li>
+                    <li>Red: Highest ratings (most experienced opponents)</li>
+                </ul>
+            </li>
+            <li>Hover effect to display detailed opponent breakdown and exact rating</li>
+            <li>Subtle animations for smooth user experience</li>
+        </ul>
+        <p>Color Gradient Implementation:</p>
+        <ul>
+            <li>Use a color gradient from green (0%) to yellow (50%) to red (100%)</li>
+            <li>Implement a function to map the rating percentage to a specific color in the gradient</li>
+            <li>Apply the calculated color to the dot overlay for each contest</li>
+        </ul>
+    </div>
+    
+    <h2>7. Performance Optimization</h2>
+    <div class="section">
+        <ul>
+            <li>Implement request throttling to avoid overwhelming DraftKings' servers</li>
+            <li>Cache fetched contest details and calculated ratings to reduce redundant requests and computations</li>
+            <li>Use efficient DOM traversal techniques for parsing HTML</li>
+            <li>Implement lazy loading of opponent information as user scrolls through the lobby</li>
+            <li>Optimize color calculation and DOM manipulation for smooth performance</li>
+        </ul>
+    </div>
+    
+    <h2>8. Security and Compliance Measures</h2>
+    <div class="section">
+        <ul>
+            <li>No data storage or transmission outside the user's browser</li>
+            <li>Implement Content Security Policy (CSP) in manifest</li>
+            <li>Clear warning messages about fair play and compliance with DraftKings' policies</li>
+            <li>Ensure the extension doesn't enable any form of collusion or unfair advantage</li>
+        </ul>
+    </div>
+    
+    <h2>9. Testing and Quality Assurance</h2>
+    <div class="section">
+        <ul>
+            <li>Unit tests for data processing functions and rating calculations</li>
+            <li>Integration tests simulating DraftKings lobby environment</li>
+            <li>Performance testing to ensure minimal impact on page load times</li>
+            <li>Cross-browser compatibility testing</li>
+            <li>Visual testing to ensure correct color representation across different displays</li>
+        </ul>
+    </div>
+    
+    <h2>10. Maintenance and Updates</h2>
+    <div class="section">
+        <ul>
+            <li>Implement version checking mechanism</li>
+            <li>Establish a process for monitoring DraftKings website changes</li>
+            <li>Create an update pipeline for quick deployment of fixes and improvements</li>
+        </ul>
+    </div>
+</body>
+</html>

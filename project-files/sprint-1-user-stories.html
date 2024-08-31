@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DraftKings Opponent Finder Chrome Extension - Sprint 1 User Stories</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2, h3 {
+            color: #1e90ff;
+        }
+        .user-story {
+            margin-bottom: 30px;
+            border-left: 4px solid #1e90ff;
+            padding-left: 20px;
+        }
+        .task {
+            margin-bottom: 10px;
+        }
+        .task-id {
+            font-weight: bold;
+            color: #1e90ff;
+        }
+    </style>
+</head>
+<body>
+    <h1>DraftKings Opponent Finder Chrome Extension: Sprint 1 User Stories</h1>
+    
+    <h2>Sprint 1: Project Setup and Core Functionality</h2>
+    <p><strong>Sprint Goal:</strong> Set up the project infrastructure and implement basic functionality for scanning the DraftKings lobby and fetching contest details.</p>
+
+    <div class="user-story">
+        <h3>User Story 1: Project Setup</h3>
+        <p><strong>As a</strong> developer,<br>
+        <strong>I want to</strong> set up the initial project structure and development environment,<br>
+        <strong>So that</strong> I can start building the Chrome extension efficiently.</p>
+        
+        <h4>Tasks:</h4>
+        <div class="task">
+            <span class="task-id">1.1.1</span> Create a new directory for the project
+        </div>
+        <div class="task">
+            <span class="task-id">1.1.2</span> Initialize a Git repository
+        </div>
+        <div class="task">
+            <span class="task-id">1.1.3</span> Set up a Node.js project with npm
+        </div>
+        <div class="task">
+            <span class="task-id">1.1.4</span> Install necessary development dependencies (e.g., webpack, babel)
+        </div>
+        <div class="task">
+            <span class="task-id">1.1.5</span> Configure ESLint for code linting
+        </div>
+        <div class="task">
+            <span class="task-id">1.1.6</span> Set up a basic folder structure for the extension
+        </div>
+        
+        <h4>Acceptance Criteria:</h4>
+        <ul>
+            <li>Project directory is created with a proper structure</li>
+            <li>Git repository is initialized with a .gitignore file</li>
+            <li>package.json file is created with necessary dependencies</li>
+            <li>ESLint is configured and functional</li>
+            <li>Developer can run basic npm commands (start, build, lint)</li>
+        </ul>
+    </div>
+
+    <div class="user-story">
+        <h3>User Story 2: Extension Manifest</h3>
+        <p><strong>As a</strong> developer,<br>
+        <strong>I want to</strong> create the manifest file for the Chrome extension,<br>
+        <strong>So that</strong> the browser can recognize and load the extension properly.</p>
+        
+        <h4>Tasks:</h4>
+        <div class="task">
+            <span class="task-id">1.2.1</span> Create a manifest.json file in the project root
+        </div>
+        <div class="task">
+            <span class="task-id">1.2.2</span> Define basic extension metadata (name, version, description)
+        </div>
+        <div class="task">
+            <span class="task-id">1.2.3</span> Specify necessary permissions for DraftKings website access
+        </div>
+        <div class="task">
+            <span class="task-id">1.2.4</span> Define content scripts and their matches
+        </div>
+        <div class="task">
+            <span class="task-id">1.2.5</span> Add placeholder icons for the extension
+        </div>
+        
+        <h4>Acceptance Criteria:</h4>
+        <ul>
+            <li>manifest.json file is created and valid</li>
+            <li>Extension can be loaded in Chrome's developer mode</li>
+            <li>Correct permissions are set for DraftKings website</li>
+            <li>Content scripts are properly defined and matched to DraftKings URLs</li>
+        </ul>
+    </div>
+
+    <div class="user-story">
+        <h3>User Story 3: Lobby Page Scanning</h3>
+        <p><strong>As a</strong> user,<br>
+        <strong>I want the</strong> extension to scan the DraftKings lobby page,<br>
+        <strong>So that</strong> it can identify contests for further analysis.</p>
+        
+        <h4>Tasks:</h4>
+        <div class="task">
+            <span class="task-id">1.3.1</span> Create a content script file (content.js)
+        </div>
+        <div class="task">
+            <span class="task-id">1.3.2</span> Implement a function to detect when the user is on the DraftKings lobby page
+        </div>
+        <div class="task">
+            <span class="task-id">1.3.3</span> Develop logic to scan the page for contest rows
+        </div>
+        <div class="task">
+            <span class="task-id">1.3.4</span> Extract contest IDs and entry counts from each row
+        </div>
+        <div class="task">
+            <span class="task-id">1.3.5</span> Implement basic error handling for the scanning process
+        </div>
+        
+        <h4>Acceptance Criteria:</h4>
+        <ul>
+            <li>Content script successfully injects into the DraftKings lobby page</li>
+            <li>Script can identify and extract information from contest rows</li>
+            <li>Contest IDs and entry counts are correctly parsed</li>
+            <li>Console logs or debug output show successful scanning of the lobby page</li>
+        </ul>
+    </div>
+
+    <div class="user-story">
+        <h3>User Story 4: Fetching Contest Details</h3>
+        <p><strong>As a</strong> user,<br>
+        <strong>I want the</strong> extension to fetch details for each identified contest,<br>
+        <strong>So that</strong> I can later analyze the opponent information.</p>
+        
+        <h4>Tasks:</h4>
+        <div class="task">
+            <span class="task-id">1.4.1</span> Implement a function to construct the contest detail URL
+        </div>
+        <div class="task">
+            <span class="task-id">1.4.2</span> Develop a mechanism to fetch the HTML content of the contest detail page
+        </div>
+        <div class="task">
+            <span class="task-id">1.4.3</span> Implement request throttling to avoid overwhelming DraftKings' servers
+        </div>
+        <div class="task">
+            <span class="task-id">1.4.4</span> Create a basic caching system to store fetched contest details
+        </div>
+        <div class="task">
+            <span class="task-id">1.4.5</span> Implement error handling for failed requests
+        </div>
+        
+        <h4>Acceptance Criteria:</h4>
+        <ul>
+            <li>Extension can successfully fetch contest detail pages</li>
+            <li>Requests are throttled to respect DraftKings' servers</li>
+            <li>Fetched data is temporarily cached to minimize redundant requests</li>
+            <li>Error handling gracefully manages failed requests</li>
+            <li>Console logs or debug output show successful fetching of contest details</li>
+        </ul>
+    </div>
+
+    <div class="user-story">
+        <h3>User Story 5: Basic Testing Setup</h3>
+        <p><strong>As a</strong> developer,<br>
+        <strong>I want to</strong> set up a basic testing framework,<br>
+        <strong>So that</strong> I can ensure the quality and reliability of the extension's core functionality.</p>
+        
+        <h4>Tasks:</h4>
+        <div class="task">
+            <span class="task-id">1.5.1</span> Choose and install a testing framework (e.g., Jest)
+        </div>
+        <div class="task">
+            <span class="task-id">1.5.2</span> Set up test configuration files
+        </div>
+        <div class="task">
+            <span class="task-id">1.5.3</span> Write basic unit tests for lobby scanning functions
+        </div>
+        <div class="task">
+            <span class="task-id">1.5.4</span> Write basic unit tests for contest detail fetching functions
+        </div>
+        <div class="task">
+            <span class="task-id">1.5.5</span> Implement a simple CI process to run tests automatically
+        </div>
+        
+        <h4>Acceptance Criteria:</h4>
+        <ul>
+            <li>Testing framework is installed and configured</li>
+            <li>Basic unit tests are implemented for core functions</li>
+            <li>All implemented tests pass successfully</li>
+            <li>CI process is set up and runs tests on each commit</li>
+        </ul>
+    </div>
+
+    <h2>Sprint 1 Deliverables</h2>
+    <ul>
+        <li>Fully set up development environment</li>
+        <li>Functional Chrome extension with basic manifest</li>
+        <li>Content script that can scan the DraftKings lobby page</li>
+        <li>Functionality to fetch contest details</li>
+        <li>Basic testing suite for core functions</li>
+    </ul>
+
+</body>
+</html>
