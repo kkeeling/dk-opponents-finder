@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DraftKings Opponent Finder Chrome Extension - Sprint 1 User Stories</title>
+    <title>DraftKings Opponent Finder Chrome Extension - Sprint 1 User Stories (Updated)</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -31,7 +31,7 @@
     </style>
 </head>
 <body>
-    <h1>DraftKings Opponent Finder Chrome Extension: Sprint 1 User Stories</h1>
+    <h1>DraftKings Opponent Finder Chrome Extension: Sprint 1 User Stories (Updated)</h1>
     
     <h2>Sprint 1: Project Setup and Core Functionality</h2>
     <p><strong>Sprint Goal:</strong> Set up the project infrastructure and implement basic functionality for scanning the DraftKings lobby and fetching contest details.</p>
@@ -126,13 +126,17 @@
         <div class="task">
             <span class="task-id">1.3.5</span> Implement basic error handling for the scanning process
         </div>
+        <div class="task">
+            <span class="task-id">1.3.6</span> Add console logging for debugging purposes
+        </div>
         
         <h4>Acceptance Criteria:</h4>
         <ul>
             <li>Content script successfully injects into the DraftKings lobby page</li>
             <li>Script can identify and extract information from contest rows</li>
             <li>Contest IDs and entry counts are correctly parsed</li>
-            <li>Console logs or debug output show successful scanning of the lobby page</li>
+            <li>Console logs show successful scanning of the lobby page</li>
+            <li>Basic error handling is in place</li>
         </ul>
     </div>
 
@@ -158,6 +162,9 @@
         <div class="task">
             <span class="task-id">1.4.5</span> Implement error handling for failed requests
         </div>
+        <div class="task">
+            <span class="task-id">1.4.6</span> Add console logging for debugging purposes
+        </div>
         
         <h4>Acceptance Criteria:</h4>
         <ul>
@@ -165,39 +172,7 @@
             <li>Requests are throttled to respect DraftKings' servers</li>
             <li>Fetched data is temporarily cached to minimize redundant requests</li>
             <li>Error handling gracefully manages failed requests</li>
-            <li>Console logs or debug output show successful fetching of contest details</li>
-        </ul>
-    </div>
-
-    <div class="user-story">
-        <h3>User Story 5: Basic Testing Setup</h3>
-        <p><strong>As a</strong> developer,<br>
-        <strong>I want to</strong> set up a basic testing framework,<br>
-        <strong>So that</strong> I can ensure the quality and reliability of the extension's core functionality.</p>
-        
-        <h4>Tasks:</h4>
-        <div class="task">
-            <span class="task-id">1.5.1</span> Choose and install a testing framework (e.g., Jest)
-        </div>
-        <div class="task">
-            <span class="task-id">1.5.2</span> Set up test configuration files
-        </div>
-        <div class="task">
-            <span class="task-id">1.5.3</span> Write basic unit tests for lobby scanning functions
-        </div>
-        <div class="task">
-            <span class="task-id">1.5.4</span> Write basic unit tests for contest detail fetching functions
-        </div>
-        <div class="task">
-            <span class="task-id">1.5.5</span> Implement a simple CI process to run tests automatically
-        </div>
-        
-        <h4>Acceptance Criteria:</h4>
-        <ul>
-            <li>Testing framework is installed and configured</li>
-            <li>Basic unit tests are implemented for core functions</li>
-            <li>All implemented tests pass successfully</li>
-            <li>CI process is set up and runs tests on each commit</li>
+            <li>Console logs show successful fetching of contest details</li>
         </ul>
     </div>
 
@@ -207,7 +182,7 @@
         <li>Functional Chrome extension with basic manifest</li>
         <li>Content script that can scan the DraftKings lobby page</li>
         <li>Functionality to fetch contest details</li>
-        <li>Basic testing suite for core functions</li>
+        <li>Basic error handling and console logging for debugging</li>
     </ul>
 
 </body>

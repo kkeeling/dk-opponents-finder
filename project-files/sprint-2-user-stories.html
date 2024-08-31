@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DraftKings Opponent Finder Chrome Extension - Sprint 2 User Stories (Renumbered)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2, h3 {
+            color: #1e90ff;
+        }
+        .user-story {
+            margin-bottom: 30px;
+            border-left: 4px solid #1e90ff;
+            padding-left: 20px;
+        }
+        .task {
+            margin-bottom: 10px;
+        }
+        .task-id {
+            font-weight: bold;
+            color: #1e90ff;
+        }
+    </style>
+</head>
+<body>
+    <h1>DraftKings Opponent Finder Chrome Extension: Sprint 2 User Stories (Renumbered)</h1>
+    
+    <h2>Sprint 2: Data Processing and Rating System</h2>
+    <p><strong>Sprint Goal:</strong> Implement data processing for opponent information, develop the rating calculation system, and optimize performance with caching.</p>
+
+    <div class="user-story">
+        <h3>User Story 5: Parse Opponent Data</h3>
+        <p><strong>As a</strong> user,<br>
+        <strong>I want the</strong> extension to parse the opponent data from the fetched contest details,<br>
+        <strong>So that</strong> I can see the experience levels of opponents in each contest.</p>
+        
+        <h4>Tasks:</h4>
+        <div class="task">
+            <span class="task-id">5.1</span> Create a function to parse the HTML of the contest details page
+        </div>
+        <div class="task">
+            <span class="task-id">5.2</span> Extract opponent usernames and their corresponding experience badge classes
+        </div>
+        <div class="task">
+            <span class="task-id">5.3</span> Implement error handling for missing or unexpected data
+        </div>
+        <div class="task">
+            <span class="task-id">5.4</span> Add logging to track parsing progress and any issues encountered
+        </div>
+        
+        <h4>Acceptance Criteria:</h4>
+        <ul>
+            <li>Function successfully extracts opponent data from the contest details HTML</li>
+            <li>Extracted data includes usernames and corresponding experience levels</li>
+            <li>Error handling gracefully manages missing or malformed data</li>
+            <li>Console logs show successful parsing of opponent data</li>
+        </ul>
+    </div>
+
+    <div class="user-story">
+        <h3>User Story 6: Process Experience Levels</h3>
+        <p><strong>As a</strong> user,<br>
+        <strong>I want the</strong> extension to categorize opponents based on their experience levels,<br>
+        <strong>So that</strong> I can understand the composition of each contest.</p>
+        
+        <h4>Tasks:</h4>
+        <div class="task">
+            <span class="task-id">6.1</span> Implement a function to categorize opponents into experience levels (beginner, low, medium, high)
+        </div>
+        <div class="task">
+            <span class="task-id">6.2</span> Assign point values to each experience level (0 for beginner, 1 for low, 2 for medium, 3 for high)
+        </div>
+        <div class="task">
+            <span class="task-id">6.3</span> Create a summary of experience levels for each contest
+        </div>
+        <div class="task">
+            <span class="task-id">6.4</span> Implement error checking to ensure all opponents are correctly categorized
+        </div>
+        
+        <h4>Acceptance Criteria:</h4>
+        <ul>
+            <li>Opponents are correctly categorized into experience levels</li>
+            <li>Point values are accurately assigned to each opponent</li>
+            <li>A summary of experience levels is generated for each contest</li>
+            <li>Error checking ensures all opponents have a valid experience level</li>
+        </ul>
+    </div>
+
+    <div class="user-story">
+        <h3>User Story 7: Implement Rating Calculation</h3>
+        <p><strong>As a</strong> user,<br>
+        <strong>I want the</strong> extension to calculate a rating for each contest based on current opponent experience levels,<br>
+        <strong>So that</strong> I can quickly identify contests with less experienced opponents.</p>
+        
+        <h4>Tasks:</h4>
+        <div class="task">
+            <span class="task-id">7.1</span> Develop a function to calculate the total score for a contest (sum of all current opponent point values)
+        </div>
+        <div class="task">
+            <span class="task-id">7.2</span> Implement the calculation for the maximum possible score (current number of entrants * 3)
+        </div>
+        <div class="task">
+            <span class="task-id">7.3</span> Create the final rating calculation: (score / max_score) * 100
+        </div>
+        <div class="task">
+            <span class="task-id">7.4</span> Implement rounding to ensure consistent decimal places in the rating
+        </div>
+        <div class="task">
+            <span class="task-id">7.5</span> Add error handling for edge cases (e.g., contests with no current entrants)
+        </div>
+        <div class="task">
+            <span class="task-id">7.6</span> Implement a mechanism to update the rating as new entrants join the contest
+        </div>
+        
+        <h4>Acceptance Criteria:</h4>
+        <ul>
+            <li>Rating is correctly calculated for each contest based on current entrants</li>
+            <li>Rating is a percentage between 0 and 100</li>
+            <li>Calculation handles edge cases without errors</li>
+            <li>Ratings are consistent and accurately reflect the experience levels of current opponents</li>
+            <li>Rating updates dynamically as new entrants join the contest</li>
+        </ul>
+    </div>
+
+    <div class="user-story">
+        <h3>User Story 8: Implement Caching Mechanism</h3>
+        <p><strong>As a</strong> user,<br>
+        <strong>I want the</strong> extension to cache processed data,<br>
+        <strong>So that</strong> it can provide quick results without unnecessary re-processing.</p>
+        
+        <h4>Tasks:</h4>
+        <div class="task">
+            <span class="task-id">8.1</span> Design a caching structure for storing processed contest data
+        </div>
+        <div class="task">
+            <span class="task-id">8.2</span> Implement a function to save processed data to the cache
+        </div>
+        <div class="task">
+            <span class="task-id">8.3</span> Create a function to retrieve data from the cache
+        </div>
+        <div class="task">
+            <span class="task-id">8.4</span> Implement cache invalidation logic (e.g., based on time or when contest details change)
+        </div>
+        <div class="task">
+            <span class="task-id">8.5</span> Add error handling for cache read/write operations
+        </div>
+        
+        <h4>Acceptance Criteria:</h4>
+        <ul>
+            <li>Processed contest data is successfully stored in the cache</li>
+            <li>Cached data can be quickly retrieved when needed</li>
+            <li>Cache invalidation prevents the use of outdated data</li>
+            <li>Error handling ensures the extension functions even if caching fails</li>
+        </ul>
+    </div>
+
+    <h2>Sprint 2 Deliverables</h2>
+    <ul>
+        <li>Functional opponent data parsing system</li>
+        <li>Implemented experience level processing</li>
+        <li>Working rating calculation for contests based on current entrants</li>
+        <li>Efficient caching mechanism for processed data</li>
+        <li>Improved performance through optimized data handling</li>
+        <li>Dynamic rating update system as contest participation changes</li>
+    </ul>
+
+</body>
+</html>
