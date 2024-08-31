@@ -1,0 +1,1 @@
+chrome.runtime.onInstalled.addListener((function(n){"install"===n.reason?console.log("DraftKings Opponents Finder installed"):"update"===n.reason&&console.log("DraftKings Opponents Finder updated")})),chrome.runtime.onMessage.addListener((function(n,e,t){return"getEligibleContests"===n.action&&t({contests:[]}),!0}));
