@@ -34,7 +34,11 @@ function scanLobbyPage() {
       const startTimeCell = cells[6].querySelector(".cntr");
       const startTime = startTimeCell ? startTimeCell.textContent : "";
 
-      if (contestId && (contestStyle === "Classic" || contestStyle === "Showdown Captain Mode")) {
+      console.log("DraftKings Opponents Finder: Contest style:", contestStyle);
+      if (
+        contestId &&
+        (contestStyle === "Classic" || contestStyle === "Showdown Captain Mode")
+      ) {
         contests.push({
           id: contestId,
           name: contestName,
