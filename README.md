@@ -1,44 +1,113 @@
 # DraftKings Opponents Finder Chrome Extension
 
-This Chrome extension helps users quickly identify the experience level of opponents in DraftKings contests.
+This Chrome extension enhances your DraftKings experience by helping you quickly identify the experience level of opponents in various contests. It provides valuable insights directly in the DraftKings lobby, allowing you to make more informed decisions when choosing contests to enter.
+
+## Detailed Summary
+
+The DraftKings Opponents Finder Chrome Extension offers the following key features:
+
+1. **Contest Scanning**: Automatically scans the DraftKings lobby page for all available contests.
+2. **Opponent Analysis**: Analyzes the experience levels of opponents in each contest based on their DraftKings badges.
+3. **Rating System**: Calculates a unique rating for each contest based on the current opponents' experience levels.
+4. **Real-time Display**: Shows opponent information and ratings directly in the contest grid, specifically in the Live column.
+5. **Performance Optimization**: Implements caching of processed contest data to improve loading times and reduce API calls.
+6. **Automatic Updates**: Continuously updates information as you scroll through the lobby or change contest filters.
+7. **Visual Indicators**: Uses color-coding (green, orange, red) to quickly convey the overall experience level of opponents in each contest.
 
 ## Features
 
-- Scans the DraftKings lobby page for all contests.
-- Analyzes opponent experience levels based on their badges.
-- Calculates a rating for each contest based on the experience levels of current opponents.
-- Displays opponent information directly in the contest grid.
-- Caches processed contest data for improved performance.
+- **Enhanced Opponent Categorization**: Accurately categorizes opponents into beginner, low, medium, and high experience levels.
+- **Dynamic Rating System**: Each contest receives a rating percentage based on the current mix of opponent experience levels.
+- **Efficient Caching**: Processed contest data is cached for faster loading on subsequent views.
+- **Responsive UI**: The extension's display adapts to changes in the DraftKings lobby, including scrolling and filter adjustments.
+- **Detailed Breakdown**: Provides a summary of opponent experience levels for each contest (B: Beginners, L: Low, M: Medium, H: High).
 
-## Latest Updates
+## Installation Instructions
 
-- Enhanced opponent categorization: Opponents are accurately categorized into beginner, low, medium, and high experience levels.
-- Rating system: Each contest now has a rating calculated based on the experience levels of current opponents.
-- Improved caching: Processed contest data is now cached for faster subsequent requests.
-- Updated UI: The extension now displays detailed opponent information and ratings for all contests in the Live column.
+### For Windows:
 
-## Installation
+1. Download the extension:
+   - Open a Command Prompt (Press Win + R, type `cmd`, and press Enter)
+   - Navigate to your desired directory (e.g., `cd C:\Users\YourUsername\Documents`)
+   - Clone the repository:
+     ```
+     git clone https://github.com/yourusername/dk-opponents-finder.git
+     ```
+   - Navigate to the project directory:
+     ```
+     cd dk-opponents-finder
+     ```
 
-1. Clone this repository:
-   ```
-   git clone https://github.com/yourusername/dk-opponents-finder.git
-   ```
-2. Navigate to the project directory:
-   ```
-   cd dk-opponents-finder
-   ```
-3. Install dependencies:
-   ```
-   npm install
-   ```
-4. Build the extension:
-   ```
-   npm run build
-   ```
-5. Load the extension in Chrome:
-   - Open Chrome and go to `chrome://extensions`
+2. Install Node.js:
+   - Download and install Node.js from [nodejs.org](https://nodejs.org/)
+   - Verify the installation by running:
+     ```
+     node --version
+     npm --version
+     ```
+
+3. Install dependencies and build the extension:
+   - In the project directory, run:
+     ```
+     npm install
+     npm run build
+     ```
+
+4. Load the extension in Chrome:
+   - Open Google Chrome
+   - Go to `chrome://extensions/`
    - Enable "Developer mode" in the top right corner
-   - Click "Load unpacked" and select the `dist` folder in the project directory
+   - Click "Load unpacked"
+   - Navigate to the `dk-opponents-finder\dist` folder and select it
+
+### For Mac:
+
+1. Download the extension:
+   - Open Terminal
+   - Navigate to your desired directory (e.g., `cd ~/Documents`)
+   - Clone the repository:
+     ```
+     git clone https://github.com/yourusername/dk-opponents-finder.git
+     ```
+   - Navigate to the project directory:
+     ```
+     cd dk-opponents-finder
+     ```
+
+2. Install Node.js:
+   - If you have Homebrew installed, run:
+     ```
+     brew install node
+     ```
+   - If not, download and install Node.js from [nodejs.org](https://nodejs.org/)
+   - Verify the installation by running:
+     ```
+     node --version
+     npm --version
+     ```
+
+3. Install dependencies and build the extension:
+   - In the project directory, run:
+     ```
+     npm install
+     npm run build
+     ```
+
+4. Load the extension in Chrome:
+   - Open Google Chrome
+   - Go to `chrome://extensions/`
+   - Enable "Developer mode" in the top right corner
+   - Click "Load unpacked"
+   - Navigate to the `dk-opponents-finder/dist` folder and select it
+
+## Usage
+
+1. After installation, navigate to the DraftKings lobby page (https://www.draftkings.com/lobby).
+2. The extension will automatically start processing visible contests.
+3. In the Live column of the contest grid, you'll see:
+   - A rating percentage at the top (color-coded green, orange, or red)
+   - A breakdown of opponent experience levels (B: Beginners, L: Low, M: Medium, H: High)
+4. The information updates automatically as you scroll or change filters.
 
 ## Development
 
@@ -55,32 +124,14 @@ This Chrome extension helps users quickly identify the experience level of oppon
   npm test
   ```
 
-## Using the Extension
-
-1. After installing the extension, navigate to the DraftKings lobby page (https://www.draftkings.com/lobby).
-2. The extension will automatically process all visible contests.
-3. In the Live column of the contest grid, you will see:
-   - A rating percentage at the top (color-coded green, orange, or red)
-   - A breakdown of opponent experience levels below (B: Beginners, L: Low, M: Medium, H: High)
-4. The information updates automatically as you scroll or change filters.
-
-## Testing the Extension
-
-1. Open the Chrome Developer Tools (Right-click > Inspect or F12).
-2. Go to the Console tab to view logs from the extension.
-3. Scroll through the lobby and observe new contests being processed.
-4. Change contest filters and verify that the extension updates accordingly.
-5. Refresh the page and check if cached data loads faster for previously viewed contests.
-6. Resize the browser window to test responsiveness.
-7. Verify that the opponent information is displayed correctly for various contest types and sizes.
-
 ## Troubleshooting
 
 If you encounter any issues:
-1. Check the console for error messages.
+1. Check the browser console for error messages (Right-click > Inspect > Console tab).
 2. Ensure you're logged into DraftKings.
 3. Try reloading the extension from the Chrome extensions page.
 4. Clear your browser cache and reload the DraftKings lobby.
+5. Verify that you're using the latest version of Google Chrome.
 
 ## License
 
@@ -88,4 +139,4 @@ This project is licensed under the ISC License.
 
 ## Disclaimer
 
-This extension is for educational purposes only. Always comply with DraftKings' terms of service and community guidelines when using this extension. The developers are not responsible for any violations or consequences resulting from the use of this extension.
+This extension is for educational and informational purposes only. Always comply with DraftKings' terms of service and community guidelines when using this extension. The developers are not responsible for any violations or consequences resulting from the use of this extension. Use at your own risk and discretion.
