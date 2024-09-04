@@ -8,7 +8,8 @@
     "dev": "webpack --mode development --watch",
     "lint": "eslint src/**/*.js",
     "test": "jest",
-    "package": "npm run build && mkdir -p releases && cd dist && zip -r ../releases/dk-opponents-finder-v$npm_package_version.zip * && cd .."
+    "package": "npm run build && mkdir -p releases && cd dist && zip -r ../releases/dk-opponents-finder-v$npm_package_version.zip * && cd ..",
+    "version": "auto-changelog -p && git add CHANGELOG.md"
   },
   "keywords": [
     "chrome-extension",
