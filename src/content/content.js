@@ -257,7 +257,6 @@ function renderLoadingIndicator() {
 
 // Function to handle contest grid changes
 async function handleContestGridChanges() {
-  console.log("DraftKings Opponents Finder: Contest grid changes detected");
   const eligibleContests = scanLobbyPage();
 
   if (eligibleContests.length > 0) {
