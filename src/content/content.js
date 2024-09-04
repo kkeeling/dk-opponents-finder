@@ -352,7 +352,3 @@ window.addEventListener("scroll", () => {
   console.log("DraftKings Opponents Finder: Scroll event detected");
   debouncedHandleContestGridChanges();
 });
-window.addEventListener("resize", () => {
-  console.log("DraftKings Opponents Finder: Resize event detected");
-  debouncedHandleContestGridChanges();
-});
