@@ -26,7 +26,7 @@ The DraftKings Opponents Finder Chrome Extension offers the following key featur
 
 ### Option 1: Install from ZIP file (Recommended for most users)
 
-1. Download the latest release ZIP file from the [Releases page](https://github.com/yourusername/dk-opponents-finder/releases).
+1. Download the latest release ZIP file from the [Releases page](https://github.com/kkeeling/dk-opponents-finder/tree/main/releases).
 2. Unzip the file to a location on your computer.
 3. Open Google Chrome and go to `chrome://extensions/`.
 4. Enable "Developer mode" in the top right corner.
