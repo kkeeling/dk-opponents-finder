@@ -71,6 +71,7 @@ async function fetchContestDetails(contestId) {
 // Simple in-memory cache
 const contestCache = new Map();
 const processedContestIds = new Set();
+const processedContestInfo = new Map();
 
 // Function to cache processed data
 function cacheProcessedData(contestId, processedData) {
@@ -288,8 +289,9 @@ async function handleContestGridChanges() {
 
     const processedContests = await fetchAndProcessContests(newContests);
 
-    // Update the UI with processed contest information
+    // Update the UI with processed contest information and store in processedContestInfo
     processedContests.forEach((contest) => {
+      processedContestInfo.set(contest.id, contest);
       const contestRow = document.querySelector(
         `.slick-row a[id="name_${contest.id}"]`
       );
@@ -307,25 +309,31 @@ async function handleContestGridChanges() {
     });
   }
 
-  // Update UI for already processed contests that are still visible
+  updateVisibleContests();
+}
+
+// Function to update visible contests
+function updateVisibleContests() {
+  const eligibleContests = scanLobbyPage();
   eligibleContests.forEach((contest) => {
-    if (processedContestIds.has(contest.id)) {
-      const contestRow = document.querySelector(
-        `.slick-row a[id="name_${contest.id}"]`
-      );
-      if (contestRow) {
-        const rowElement = contestRow.closest(".slick-row");
-        const liveCell = rowElement.querySelector(".slick-cell:nth-child(7)");
-        if (liveCell && !liveCell.querySelector(".dk-opponents-finder-info")) {
-          const cachedData = contestCache.get(contest.id);
-          if (cachedData) {
-            const infoElement = renderOpponentInfo({
-              ...contest,
-              opponentInfo: cachedData.data,
-            });
-            liveCell.innerHTML = "";
-            liveCell.appendChild(infoElement);
-          }
+    const contestRow = document.querySelector(
+      `.slick-row a[id="name_${contest.id}"]`
+    );
+    if (contestRow) {
+      const rowElement = contestRow.closest(".slick-row");
+      const liveCell = rowElement.querySelector(".slick-cell:nth-child(7)");
+      if (liveCell) {
+        const processedContest = processedContestInfo.get(contest.id);
+        if (processedContest) {
+          // Clear existing content
+          liveCell.innerHTML = "";
+          const infoElement = renderOpponentInfo(processedContest);
+          liveCell.appendChild(infoElement);
+        } else if (!liveCell.querySelector(".dk-opponents-finder-loading")) {
+          // If not processed and no loading indicator, show loading
+          liveCell.innerHTML = "";
+          const loadingElement = renderLoadingIndicator();
+          liveCell.appendChild(loadingElement);
         }
       }
     }
@@ -350,7 +358,10 @@ function setupContestGridObserver() {
     subtree: true,
   };
 
-  const observer = new MutationObserver(debouncedHandleContestGridChanges);
+  const observer = new MutationObserver(() => {
+    updateVisibleContests();
+    debouncedHandleContestGridChanges();
+  });
   observer.observe(targetNode, observerOptions);
 }
 
@@ -360,6 +371,7 @@ async function main() {
     setupContestGridObserver(); // Set up observer for changes
     // Initial scan after a delay to allow page to load completely
     setTimeout(() => {
+      updateVisibleContests();
       handleContestGridChanges();
     }, 2000);
   }
@@ -379,6 +391,5 @@ new MutationObserver(() => {
 }).observe(document, { subtree: true, childList: true });
 
 // Add event listeners for scroll and resize events
-window.addEventListener("scroll", () => {
-  debouncedHandleContestGridChanges();
-});
+window.addEventListener("scroll", updateVisibleContests);
+window.addEventListener("resize", updateVisibleContests);
