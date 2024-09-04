@@ -263,7 +263,9 @@ function renderLoadingIndicator() {
 // Function to handle contest grid changes
 async function handleContestGridChanges() {
   const eligibleContests = scanLobbyPage();
-  const newContests = eligibleContests.filter(contest => !processedContestIds.has(contest.id));
+  const newContests = eligibleContests.filter(
+    (contest) => !processedContestIds.has(contest.id)
+  );
 
   if (newContests.length > 0) {
     // Add loading indicators for new contests
@@ -314,11 +316,14 @@ async function handleContestGridChanges() {
       if (contestRow) {
         const rowElement = contestRow.closest(".slick-row");
         const liveCell = rowElement.querySelector(".slick-cell:nth-child(7)");
-        if (liveCell && !liveCell.querySelector('.dk-opponents-finder-info')) {
+        if (liveCell && !liveCell.querySelector(".dk-opponents-finder-info")) {
           const cachedData = contestCache.get(contest.id);
           if (cachedData) {
-            const infoElement = renderOpponentInfo({ ...contest, opponentInfo: cachedData.data });
-            liveCell.innerHTML = '';
+            const infoElement = renderOpponentInfo({
+              ...contest,
+              opponentInfo: cachedData.data,
+            });
+            liveCell.innerHTML = "";
             liveCell.appendChild(infoElement);
           }
         }
@@ -375,6 +380,5 @@ new MutationObserver(() => {
 
 // Add event listeners for scroll and resize events
 window.addEventListener("scroll", () => {
-  console.log("DraftKings Opponents Finder: Scroll event detected");
   debouncedHandleContestGridChanges();
 });
