@@ -23,6 +23,8 @@ function scanLobbyPage() {
       const nameCell = cells[1].querySelector("a");
       const contestId = nameCell ? nameCell.id.split("_")[1] : null;
       const contestName = nameCell ? nameCell.textContent : "";
+      const styleCell = cells[2].querySelector("a span.grid-text");
+      const contestStyle = styleCell ? styleCell.textContent.trim() : "";
       const entryFeeCell = cells[3].querySelector(".grid-text-with-icon");
       const entryFee = entryFeeCell ? entryFeeCell.textContent.trim() : "";
       const entriesCell = cells[5].querySelector(".grid-text-with-icon");
@@ -32,17 +34,18 @@ function scanLobbyPage() {
       const startTimeCell = cells[6].querySelector(".cntr");
       const startTime = startTimeCell ? startTimeCell.textContent : "";
 
-      if (contestId) {
+      if (contestId && (contestStyle === "Classic" || contestStyle === "Showdown Captain Mode")) {
         contests.push({
           id: contestId,
           name: contestName,
+          style: contestStyle,
           entryFee: entryFee,
           currentEntries: currentEntries,
           maxEntries: maxEntries,
           startTime: startTime,
         });
         console.log(
-          `DraftKings Opponents Finder: Found eligible contest - ID: ${contestId}, Name: ${contestName}, Max Entries: ${maxEntries}`
+          `DraftKings Opponents Finder: Found eligible contest - ID: ${contestId}, Name: ${contestName}, Style: ${contestStyle}, Max Entries: ${maxEntries}`
         );
       }
     }
