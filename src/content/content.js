@@ -269,53 +269,31 @@ async function handleContestGridChanges() {
   );
 
   if (newContests.length > 0) {
-    // Add loading indicators for new contests
-    newContests.forEach((contest) => {
-      const contestRow = document.querySelector(
-        `.slick-row a[id="name_${contest.id}"]`
-      );
-      if (contestRow) {
-        const rowElement = contestRow.closest(".slick-row");
-        const liveCell = rowElement.querySelector(".slick-cell:nth-child(7)");
-        if (liveCell) {
-          // Clear existing content
-          liveCell.innerHTML = "";
+    // Process contests in batches to avoid overwhelming the browser
+    const batchSize = 5;
+    for (let i = 0; i < newContests.length; i += batchSize) {
+      const batch = newContests.slice(i, i + batchSize);
+      const processedContests = await fetchAndProcessContests(batch);
 
-          const loadingElement = renderLoadingIndicator();
-          liveCell.appendChild(loadingElement);
-        }
-      }
-    });
+      processedContests.forEach((contest) => {
+        processedContestInfo.set(contest.id, contest);
+      });
 
-    const processedContests = await fetchAndProcessContests(newContests);
+      // Update UI for the processed batch
+      updateVisibleContests();
 
-    // Update the UI with processed contest information and store in processedContestInfo
-    processedContests.forEach((contest) => {
-      processedContestInfo.set(contest.id, contest);
-      const contestRow = document.querySelector(
-        `.slick-row a[id="name_${contest.id}"]`
-      );
-      if (contestRow) {
-        const rowElement = contestRow.closest(".slick-row");
-        const liveCell = rowElement.querySelector(".slick-cell:nth-child(7)");
-        if (liveCell) {
-          // Clear existing content
-          liveCell.innerHTML = "";
-
-          const infoElement = renderOpponentInfo(contest);
-          liveCell.appendChild(infoElement);
-        }
-      }
-    });
+      // Allow some time for the UI to update before processing the next batch
+      await new Promise(resolve => setTimeout(resolve, 100));
+    }
+  } else {
+    updateVisibleContests();
   }
-
-  updateVisibleContests();
 }
 
 // Function to update visible contests
 function updateVisibleContests() {
-  const eligibleContests = scanLobbyPage();
-  eligibleContests.forEach((contest) => {
+  const visibleContests = scanLobbyPage();
+  visibleContests.forEach((contest) => {
     const contestRow = document.querySelector(
       `.slick-row a[id="name_${contest.id}"]`
     );
@@ -325,12 +303,12 @@ function updateVisibleContests() {
       if (liveCell) {
         const processedContest = processedContestInfo.get(contest.id);
         if (processedContest) {
-          // Clear existing content
-          liveCell.innerHTML = "";
-          const infoElement = renderOpponentInfo(processedContest);
-          liveCell.appendChild(infoElement);
+          if (!liveCell.querySelector(".dk-opponents-finder-info")) {
+            liveCell.innerHTML = "";
+            const infoElement = renderOpponentInfo(processedContest);
+            liveCell.appendChild(infoElement);
+          }
         } else if (!liveCell.querySelector(".dk-opponents-finder-loading")) {
-          // If not processed and no loading indicator, show loading
           liveCell.innerHTML = "";
           const loadingElement = renderLoadingIndicator();
           liveCell.appendChild(loadingElement);
@@ -340,11 +318,8 @@ function updateVisibleContests() {
   });
 }
 
-// Debounced version of handleContestGridChanges with a longer delay
-const debouncedHandleContestGridChanges = debounce(
-  handleContestGridChanges,
-  2000
-);
+// Throttled version of handleContestGridChanges
+const throttledHandleContestGridChanges = throttle(handleContestGridChanges, 5000);
 
 // Function to set up the MutationObserver
 function setupContestGridObserver() {
@@ -358,10 +333,7 @@ function setupContestGridObserver() {
     subtree: true,
   };
 
-  const observer = new MutationObserver(() => {
-    updateVisibleContests();
-    debouncedHandleContestGridChanges();
-  });
+  const observer = new MutationObserver(throttledHandleContestGridChanges);
   observer.observe(targetNode, observerOptions);
 }
 
@@ -370,10 +342,7 @@ async function main() {
   if (isDraftKingsLobbyPage()) {
     setupContestGridObserver(); // Set up observer for changes
     // Initial scan after a delay to allow page to load completely
-    setTimeout(() => {
-      updateVisibleContests();
-      handleContestGridChanges();
-    }, 2000);
+    setTimeout(handleContestGridChanges, 2000);
   }
 }
 
@@ -390,6 +359,20 @@ new MutationObserver(() => {
   }
 }).observe(document, { subtree: true, childList: true });
 
-// Add event listeners for scroll and resize events
-window.addEventListener("scroll", updateVisibleContests);
-window.addEventListener("resize", updateVisibleContests);
+// Add throttled event listeners for scroll and resize events
+window.addEventListener("scroll", throttle(updateVisibleContests, 500));
+window.addEventListener("resize", throttle(updateVisibleContests, 500));
+
+// Throttle function
+function throttle(func, limit) {
+  let inThrottle;
+  return function() {
+    const args = arguments;
+    const context = this;
+    if (!inThrottle) {
+      func.apply(context, args);
+      inThrottle = true;
+      setTimeout(() => inThrottle = false, limit);
+    }
+  }
+}
