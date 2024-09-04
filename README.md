@@ -109,6 +109,15 @@ The DraftKings Opponents Finder Chrome Extension offers the following key featur
    - A breakdown of opponent experience levels (B: Beginners, L: Low, M: Medium, H: High)
 4. The information updates automatically as you scroll or change filters.
 
+## Installation from ZIP file
+
+1. Download the ZIP file containing the extension.
+2. Unzip the file to a location on your computer.
+3. Open Google Chrome and go to `chrome://extensions/`.
+4. Enable "Developer mode" in the top right corner.
+5. Click "Load unpacked" and select the folder you just unzipped.
+6. The extension should now be installed and ready to use.
+
 ## Development
 
 - Run the development build with watch mode:
