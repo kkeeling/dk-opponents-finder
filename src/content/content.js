@@ -255,16 +255,50 @@ function renderOpponentInfo(contest) {
     height: 100%;
   `;
 
-  const ratingColor =
-    contest.opponentInfo.rating < 33
-      ? "green"
-      : contest.opponentInfo.rating < 66
-      ? "orange"
-      : "red";
+  if (contest.opponentInfo) {
+    const ratingColor =
+      contest.opponentInfo.rating < 33
+        ? "green"
+        : contest.opponentInfo.rating < 66
+        ? "orange"
+        : "red";
+
+    container.innerHTML = `
+      <span style="font-weight: bold; color: ${ratingColor}; margin-bottom: 2px;">
+        ${contest.opponentInfo.rating}%
+      </span>
+    `;
+  } else {
+    container.innerHTML = `
+      <span style="font-weight: bold; color: #888;">
+        Loading...
+      </span>
+    `;
+  }
+
+  return container;
+}
+
+// Function to render loading indicator
+function renderLoadingIndicator() {
+  const container = document.createElement("span");
+  container.className = "dk-opponents-finder-loading";
+  container.style.cssText = `
+    font-size: 11px;
+    padding: 2px 4px;
+    background-color: #f0f0f0;
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  `;
 
   container.innerHTML = `
-    <span style="font-weight: bold; color: ${ratingColor}; margin-bottom: 2px;">
-      ${contest.opponentInfo.rating}%
+    <span style="font-weight: bold; color: #888;">
+      Loading...
     </span>
   `;
 
@@ -281,6 +315,25 @@ async function handleContestGridChanges() {
   );
 
   if (eligibleContests.length > 0) {
+    // Add loading indicators for eligible contests
+    eligibleContests.forEach((contest) => {
+      const contestRow = document.querySelector(
+        `.slick-row a[id="name_${contest.id}"]`
+      );
+      if (contestRow) {
+        const rowElement = contestRow.closest(".slick-row");
+        const liveCell = rowElement.querySelector(".slick-cell:nth-child(7)");
+        if (liveCell) {
+          // Clear existing content
+          liveCell.innerHTML = "";
+
+          console.log("Adding loading indicator for contest ID", contest.id);
+          const loadingElement = renderLoadingIndicator();
+          liveCell.appendChild(loadingElement);
+        }
+      }
+    });
+
     console.log("DraftKings Opponents Finder: Fetching contest details...");
     const processedContests = await fetchAndProcessContests(eligibleContests);
     console.log(
