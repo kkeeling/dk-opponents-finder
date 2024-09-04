@@ -70,6 +70,7 @@ async function fetchContestDetails(contestId) {
 
 // Simple in-memory cache
 const contestCache = new Map();
+const processedContestIds = new Set();
 
 // Function to cache processed data
 function cacheProcessedData(contestId, processedData) {
@@ -77,6 +78,7 @@ function cacheProcessedData(contestId, processedData) {
     data: processedData,
     timestamp: Date.now(),
   });
+  processedContestIds.add(contestId);
 }
 
 // Function to get contest details with caching
@@ -161,11 +163,14 @@ async function fetchAndProcessContests(contests) {
   const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
   for (const contest of contests) {
-    const opponentInfo = await getContestDetails(contest.id);
-    if (opponentInfo) {
-      processedContests.push({ ...contest, opponentInfo });
+    if (!processedContestIds.has(contest.id)) {
+      const opponentInfo = await getContestDetails(contest.id);
+      if (opponentInfo) {
+        processedContests.push({ ...contest, opponentInfo });
+        processedContestIds.add(contest.id);
+      }
+      await delay(1000); // 1 second delay between requests
     }
-    await delay(1000); // 1 second delay between requests
   }
 
   return processedContests;
@@ -258,10 +263,11 @@ function renderLoadingIndicator() {
 // Function to handle contest grid changes
 async function handleContestGridChanges() {
   const eligibleContests = scanLobbyPage();
+  const newContests = eligibleContests.filter(contest => !processedContestIds.has(contest.id));
 
-  if (eligibleContests.length > 0) {
-    // Add loading indicators for eligible contests
-    eligibleContests.forEach((contest) => {
+  if (newContests.length > 0) {
+    // Add loading indicators for new contests
+    newContests.forEach((contest) => {
       const contestRow = document.querySelector(
         `.slick-row a[id="name_${contest.id}"]`
       );
@@ -278,7 +284,7 @@ async function handleContestGridChanges() {
       }
     });
 
-    const processedContests = await fetchAndProcessContests(eligibleContests);
+    const processedContests = await fetchAndProcessContests(newContests);
 
     // Update the UI with processed contest information
     processedContests.forEach((contest) => {
@@ -298,6 +304,27 @@ async function handleContestGridChanges() {
       }
     });
   }
+
+  // Update UI for already processed contests that are still visible
+  eligibleContests.forEach((contest) => {
+    if (processedContestIds.has(contest.id)) {
+      const contestRow = document.querySelector(
+        `.slick-row a[id="name_${contest.id}"]`
+      );
+      if (contestRow) {
+        const rowElement = contestRow.closest(".slick-row");
+        const liveCell = rowElement.querySelector(".slick-cell:nth-child(7)");
+        if (liveCell && !liveCell.querySelector('.dk-opponents-finder-info')) {
+          const cachedData = contestCache.get(contest.id);
+          if (cachedData) {
+            const infoElement = renderOpponentInfo({ ...contest, opponentInfo: cachedData.data });
+            liveCell.innerHTML = '';
+            liveCell.appendChild(infoElement);
+          }
+        }
+      }
+    }
+  });
 }
 
 // Debounced version of handleContestGridChanges with a longer delay
