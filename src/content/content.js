@@ -1,7 +1,9 @@
 // Function to check if we're on the DraftKings lobby page
 function isDraftKingsLobbyPage() {
-  return window.location.hostname === "www.draftkings.com" &&
-    window.location.pathname.includes("/lobby");
+  return (
+    window.location.hostname === "www.draftkings.com" &&
+    window.location.pathname.includes("/lobby")
+  );
 }
 
 // Function to scan the lobby page for contests
@@ -255,6 +257,7 @@ function renderLoadingIndicator() {
 
 // Function to handle contest grid changes
 async function handleContestGridChanges() {
+  console.log("DraftKings Opponents Finder: Contest grid changes detected");
   const eligibleContests = scanLobbyPage();
 
   if (eligibleContests.length > 0) {
