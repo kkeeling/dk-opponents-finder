@@ -1,8 +1,9 @@
-// Function to check if we're on the DraftKings lobby page
+// Function to check if we're on the DraftKings lobby or post-entry page
 function isDraftKingsLobbyPage() {
   return (
     window.location.hostname === "www.draftkings.com" &&
-    window.location.pathname.includes("/lobby")
+    (window.location.pathname.includes("/lobby") ||
+     window.location.pathname.includes("/postentry"))
   );
 }
 
@@ -340,9 +341,15 @@ function setupContestGridObserver() {
 // Main function to run when the content script is injected
 async function main() {
   if (isDraftKingsLobbyPage()) {
-    setupContestGridObserver(); // Set up observer for changes
-    // Initial scan after a delay to allow page to load completely
-    setTimeout(handleContestGridChanges, 2000);
+    if (window.location.pathname.includes("/lobby")) {
+      setupContestGridObserver(); // Set up observer for changes
+      // Initial scan after a delay to allow page to load completely
+      setTimeout(handleContestGridChanges, 2000);
+    } else if (window.location.pathname.includes("/postentry")) {
+      // Add functionality for post-entry page here
+      console.log("Extension is running on post-entry page");
+      // TODO: Implement post-entry page functionality
+    }
   }
 }
 
