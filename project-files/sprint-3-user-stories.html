@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DraftKings Opponent Finder Chrome Extension - Sprint 3 User Stories</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2, h3 {
+            color: #1e90ff;
+        }
+        .user-story {
+            margin-bottom: 30px;
+            border-left: 4px solid #1e90ff;
+            padding-left: 20px;
+        }
+        .task {
+            margin-bottom: 10px;
+        }
+        .task-id {
+            font-weight: bold;
+            color: #1e90ff;
+        }
+    </style>
+</head>
+<body>
+    <h1>DraftKings Opponent Finder Chrome Extension: Sprint 3 User Stories</h1>
+    
+    <h2>Sprint 3: Username Blacklist Feature</h2>
+    <p><strong>Sprint Goal:</strong> Implement a Username Blacklist feature that allows users to mark contests containing specific opponents and manage their blacklist.</p>
+
+    <div class="user-story">
+        <h3>User Story 9: Blacklist Management UI</h3>
+        <p><strong>As a</strong> user,<br>
+        <strong>I want to</strong> be able to add and remove usernames from my blacklist,<br>
+        <strong>So that</strong> I can avoid contests with specific opponents.</p>
+        
+        <h4>Tasks:</h4>
+        <div class="task">
+            <span class="task-id">9.1</span> Design a user interface for managing the blacklist within the extension popup
+        </div>
+        <div class="task">
+            <span class="task-id">9.2</span> Implement an input field for adding new usernames to the blacklist
+        </div>
+        <div class="task">
+            <span class="task-id">9.3</span> Create a list view of currently blacklisted usernames
+        </div>
+        <div class="task">
+            <span class="task-id">9.4</span> Add functionality to remove usernames from the blacklist
+        </div>
+        <div class="task">
+            <span class="task-id">9.5</span> Implement input validation to prevent duplicate or invalid entries
+        </div>
+        
+        <h4>Acceptance Criteria:</h4>
+        <ul>
+            <li>Users can add new usernames to the blacklist</li>
+            <li>Users can view all currently blacklisted usernames</li>
+            <li>Users can remove usernames from the blacklist</li>
+            <li>The UI prevents addition of duplicate or invalid usernames</li>
+            <li>The blacklist management interface is intuitive and easy to use</li>
+        </ul>
+    </div>
+
+    <div class="user-story">
+        <h3>User Story 10: Blacklist Storage</h3>
+        <p><strong>As a</strong> user,<br>
+        <strong>I want my</strong> blacklist to persist between browsing sessions,<br>
+        <strong>So that</strong> I don't have to recreate it every time I use the extension.</p>
+        
+        <h4>Tasks:</h4>
+        <div class="task">
+            <span class="task-id">10.1</span> Implement a storage mechanism for the blacklist using Chrome's storage API
+        </div>
+        <div class="task">
+            <span class="task-id">10.2</span> Create functions to save the blacklist when it's updated
+        </div>
+        <div class="task">
+            <span class="task-id">10.3</span> Implement functionality to load the blacklist when the extension is initialized
+        </div>
+        <div class="task">
+            <span class="task-id">10.4</span> Add error handling for storage operations
+        </div>
+        
+        <h4>Acceptance Criteria:</h4>
+        <ul>
+            <li>Blacklist persists between browser sessions</li>
+            <li>Changes to the blacklist are immediately saved</li>
+            <li>Blacklist is loaded correctly when the extension is opened</li>
+            <li>Storage errors are handled gracefully without crashing the extension</li>
+        </ul>
+    </div>
+
+    <div class="user-story">
+        <h3>User Story 11: Integrate Blacklist with Contest Rating</h3>
+        <p><strong>As a</strong> user,<br>
+        <strong>I want</strong> contests containing blacklisted opponents to be clearly marked,<br>
+        <strong>So that</strong> I can easily avoid these contests.</p>
+        
+        <h4>Tasks:</h4>
+        <div class="task">
+            <span class="task-id">11.1</span> Modify the contest parsing function to check for blacklisted usernames
+        </div>
+        <div class="task">
+            <span class="task-id">11.2</span> Update the rating calculation to set the rating to "X" when a blacklisted user is found
+        </div>
+        <div class="task">
+            <span class="task-id">11.3</span> Implement a visual indicator (e.g., different color or icon) for contests with blacklisted users
+        </div>
+        <div class="task">
+            <span class="task-id">11.4</span> Update the hover information to include the reason for the "X" rating
+        </div>
+        <div class="task">
+            <span class="task-id">11.5</span> Ensure the blacklist check doesn't significantly impact performance
+        </div>
+        
+        <h4>Acceptance Criteria:</h4>
+        <ul>
+            <li>Contests with blacklisted opponents are correctly identified</li>
+            <li>These contests are assigned an "X" rating</li>
+            <li>Contests with blacklisted opponents have a distinct visual indicator</li>
+            <li>Hover information explains why a contest is marked with an "X"</li>
+            <li>Blacklist integration doesn't noticeably slow down the extension</li>
+        </ul>
+    </div>
+
+    <div class="user-story">
+        <h3>User Story 12: Blacklist Feature Documentation</h3>
+        <p><strong>As a</strong> user,<br>
+        <strong>I want</strong> clear instructions on how to use the blacklist feature,<br>
+        <strong>So that</strong> I can fully utilize this functionality.</p>
+        
+        <h4>Tasks:</h4>
+        <div class="task">
+            <span class="task-id">12.1</span> Write user documentation explaining the blacklist feature
+        </div>
+        <div class="task">
+            <span class="task-id">12.2</span> Create a brief tutorial or walkthrough for first-time users
+        </div>
+        <div class="task">
+            <span class="task-id">12.3</span> Update the extension's help section to include blacklist information
+        </div>
+        <div class="task">
+            <span class="task-id">12.4</span> Add tooltips or hints in the UI to guide users
+        </div>
+        
+        <h4>Acceptance Criteria:</h4>
+        <ul>
+            <li>Clear and concise documentation for the blacklist feature is available</li>
+            <li>A tutorial or walkthrough guides new users through the blacklist functionality</li>
+            <li>The extension's help section includes up-to-date information about the blacklist</li>
+            <li>UI elements have helpful tooltips or hints for user guidance</li>
+        </ul>
+    </div>
+
+    <h2>Sprint 3 Deliverables</h2>
+    <ul>
+        <li>Functional Username Blacklist management interface</li>
+        <li>Persistent storage for the blacklist</li>
+        <li>Integration of blacklist with contest rating system</li>
+        <li>Visual indicators for contests with blacklisted opponents</li>
+        <li>Updated documentation and user guidance for the blacklist feature</li>
+    </ul>
+
+</body>
+</html>
