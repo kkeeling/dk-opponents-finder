@@ -7,40 +7,31 @@ function isDraftKingsLobbyPage() {
   );
 }
 
-// Function to scan the lobby page for contests
+// Function to scan the lobby or post-entry page for contests
 function scanLobbyPage() {
   const contestRows = document.querySelectorAll(".slick-row");
   const contests = [];
 
   contestRows.forEach((row) => {
     const cells = row.querySelectorAll(".slick-cell");
-    if (cells.length >= 8) {
+    if (cells.length >= 6) {
       const nameCell = cells[1].querySelector("a");
       const contestId = nameCell ? nameCell.id.split("_")[1] : null;
-      const contestName = nameCell ? nameCell.textContent : "";
-      const styleCell = cells[2].querySelector("a span.grid-text");
-      const contestStyle = styleCell ? styleCell.textContent.trim() : "";
-      const entryFeeCell = cells[3].querySelector(".grid-text-with-icon");
+      const contestName = nameCell ? nameCell.textContent.trim() : "";
+      const entryFeeCell = cells[2].querySelector(".grid-text-with-icon");
       const entryFee = entryFeeCell ? entryFeeCell.textContent.trim() : "";
-      const entriesCell = cells[5].querySelector(".grid-text-with-icon");
+      const entriesCell = cells[4].querySelector(".grid-text-with-icon");
       const entries = entriesCell ? entriesCell.textContent.split("/") : [];
       const currentEntries = entries[0] ? parseInt(entries[0], 10) : 0;
       const maxEntries = entries[1] ? parseInt(entries[1], 10) : 0;
-      const startTimeCell = cells[6].querySelector(".cntr");
-      const startTime = startTimeCell ? startTimeCell.textContent : "";
 
-      if (
-        contestId &&
-        (contestStyle === "Classic" || contestStyle === "Showdown Captain Mode")
-      ) {
+      if (contestId) {
         contests.push({
           id: contestId,
           name: contestName,
-          style: contestStyle,
           entryFee: entryFee,
           currentEntries: currentEntries,
           maxEntries: maxEntries,
-          startTime: startTime,
         });
       }
     }
@@ -212,7 +203,7 @@ function renderOpponentInfo(contest) {
     height: 100%;
   `;
 
-  if (contest.opponentInfo) {
+  if (contest.opponentInfo && contest.opponentInfo.rating !== undefined) {
     const ratingColor =
       contest.opponentInfo.rating < 33
         ? "green"
@@ -223,6 +214,12 @@ function renderOpponentInfo(contest) {
     container.innerHTML = `
       <span style="font-weight: bold; color: ${ratingColor}; margin-bottom: 2px;">
         ${contest.opponentInfo.rating}%
+      </span>
+    `;
+  } else if (contest.opponentInfo) {
+    container.innerHTML = `
+      <span style="font-weight: bold; color: #888;">
+        Info Available
       </span>
     `;
   } else {
