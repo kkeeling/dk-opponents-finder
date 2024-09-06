@@ -2,7 +2,7 @@ let blacklist = [];
 
 // Listen for messages from the popup
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.action === 'updateBlacklist') {
+  if (request.action === "updateBlacklist") {
     blacklist = request.blacklist;
     updateVisibleContests(); // Refresh the contest display
   }
@@ -13,7 +13,7 @@ function isDraftKingsLobbyPage() {
   return (
     window.location.hostname === "www.draftkings.com" &&
     (window.location.pathname.includes("/lobby") ||
-     window.location.pathname.includes("/postentry"))
+      window.location.pathname.includes("/postentry"))
   );
 }
 
@@ -132,8 +132,10 @@ function processContestDetails(html) {
         return; // Skip empty slots
       }
 
-      const usernameElement = cell.querySelector('.player-name');
-      const username = usernameElement ? usernameElement.textContent.trim().toLowerCase() : '';
+      const usernameElement = cell.querySelector(".player-name");
+      const username = usernameElement
+        ? usernameElement.textContent.trim().toLowerCase()
+        : "";
 
       if (blacklist.includes(username)) {
         opponentInfo.blacklistedOpponents.push(username);
@@ -160,10 +162,12 @@ function processContestDetails(html) {
   });
 
   // Calculate rating
-  opponentInfo.rating = opponentInfo.blacklistedOpponents.length > 0 ? 'X' :
-    (opponentInfo.maxScore > 0
+  opponentInfo.rating =
+    opponentInfo.blacklistedOpponents.length > 0
+      ? "X"
+      : opponentInfo.maxScore > 0
       ? Math.round((opponentInfo.totalScore / opponentInfo.maxScore) * 100)
-      : 0);
+      : 0;
 
   return opponentInfo;
 }
@@ -222,13 +226,13 @@ function renderOpponentInfo(contest) {
   `;
 
   if (contest.opponentInfo) {
-    if (contest.opponentInfo.rating === 'X') {
+    if (contest.opponentInfo.rating === "X") {
       container.innerHTML = `
         <span style="font-weight: bold; color: red; margin-bottom: 2px;">
           X
         </span>
         <span style="font-size: 9px; color: #888;">
-          Blacklisted: ${contest.opponentInfo.blacklistedOpponents.join(', ')}
+          Blacklisted: ${contest.opponentInfo.blacklistedOpponents.join(", ")}
         </span>
       `;
     } else {
@@ -242,10 +246,6 @@ function renderOpponentInfo(contest) {
       container.innerHTML = `
         <span style="font-weight: bold; color: ${ratingColor}; margin-bottom: 2px;">
           ${contest.opponentInfo.rating}%
-        </span>
-        <span style="font-size: 9px; color: #888;">
-          B:${contest.opponentInfo.beginner} L:${contest.opponentInfo.lowExperience} 
-          M:${contest.opponentInfo.mediumExperience} H:${contest.opponentInfo.highExperience}
         </span>
       `;
     }
@@ -308,7 +308,7 @@ async function handleContestGridChanges() {
       updateVisibleContests();
 
       // Allow some time for the UI to update before processing the next batch
-      await new Promise(resolve => setTimeout(resolve, 100));
+      await new Promise((resolve) => setTimeout(resolve, 100));
     }
   } else {
     updateVisibleContests();
@@ -344,7 +344,10 @@ function updateVisibleContests() {
 }
 
 // Throttled version of handleContestGridChanges
-const throttledHandleContestGridChanges = throttle(handleContestGridChanges, 5000);
+const throttledHandleContestGridChanges = throttle(
+  handleContestGridChanges,
+  5000
+);
 
 // Function to set up the MutationObserver
 function setupContestGridObserver() {
@@ -391,13 +394,13 @@ window.addEventListener("resize", throttle(updateVisibleContests, 500));
 // Throttle function
 function throttle(func, limit) {
   let inThrottle;
-  return function() {
+  return function () {
     const args = arguments;
     const context = this;
     if (!inThrottle) {
       func.apply(context, args);
       inThrottle = true;
-      setTimeout(() => inThrottle = false, limit);
+      setTimeout(() => (inThrottle = false), limit);
     }
-  }
+  };
 }
