@@ -2,9 +2,8 @@ let blacklist = [];
 
 // Function to load the blacklist from storage
 function loadBlacklist() {
-  chrome.storage.sync.get(['blacklist'], (result) => {
+  chrome.storage.sync.get(["blacklist"], (result) => {
     blacklist = result.blacklist || [];
-    console.log('Loaded blacklist:', blacklist);
     updateVisibleContests(); // Refresh the contest display after loading
   });
 }
@@ -13,7 +12,7 @@ function loadBlacklist() {
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "updateBlacklist") {
     blacklist = request.blacklist;
-    console.log('Updated blacklist:', blacklist);
+    console.log("Updated blacklist:", blacklist);
     updateVisibleContests(); // Refresh the contest display
   }
 });
@@ -145,13 +144,11 @@ function processContestDetails(html) {
         return; // Skip empty slots
       }
 
-      const usernameElement = cell.querySelector(".player-name");
+      const usernameElement = cell.querySelector(".entrant-username");
       const username = usernameElement
         ? usernameElement.textContent.trim().toLowerCase()
         : "";
 
-      console.log(username);
-      console.log(blacklist);
       if (blacklist.includes(username)) {
         opponentInfo.blacklistedOpponents.push(username);
       }
@@ -245,9 +242,6 @@ function renderOpponentInfo(contest) {
       container.innerHTML = `
         <span style="font-weight: bold; color: red; margin-bottom: 2px;">
           X
-        </span>
-        <span style="font-size: 9px; color: #888;">
-          Blacklisted: ${contest.opponentInfo.blacklistedOpponents.join(", ")}
         </span>
       `;
     } else {
