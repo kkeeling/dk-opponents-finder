@@ -1,26 +1,28 @@
 # DraftKings Opponents Finder Chrome Extension
 
-This Chrome extension enhances your DraftKings experience by helping you quickly identify the experience level of opponents in various contests. It provides valuable insights directly in the DraftKings lobby, allowing you to make more informed decisions when choosing contests to enter.
+This Chrome extension enhances your DraftKings experience by helping you quickly identify the experience level of opponents in various contests. It provides valuable insights directly in the DraftKings lobby and post-entry pages, allowing you to make more informed decisions when choosing contests to enter.
 
 ## Detailed Summary
 
 The DraftKings Opponents Finder Chrome Extension offers the following key features:
 
-1. **Contest Scanning**: Automatically scans the DraftKings lobby page for all available contests.
+1. **Contest Scanning**: Automatically scans the DraftKings lobby and post-entry pages for all available contests.
 2. **Opponent Analysis**: Analyzes the experience levels of opponents in each contest based on their DraftKings badges.
 3. **Rating System**: Calculates a unique rating for each contest based on the current opponents' experience levels.
 4. **Real-time Display**: Shows opponent information and ratings directly in the contest grid, specifically in the Live column.
 5. **Performance Optimization**: Implements caching of processed contest data to improve loading times and reduce API calls.
 6. **Automatic Updates**: Continuously updates information as you scroll through the lobby or change contest filters.
 7. **Visual Indicators**: Uses color-coding (green, orange, red) to quickly convey the overall experience level of opponents in each contest.
+8. **Multi-page Support**: Works on both the main lobby page and the post-entry page, providing consistent functionality across different DraftKings pages.
 
 ## Features
 
 - **Enhanced Opponent Categorization**: Accurately categorizes opponents into beginner, low, medium, and high experience levels.
 - **Dynamic Rating System**: Each contest receives a rating percentage based on the current mix of opponent experience levels.
 - **Efficient Caching**: Processed contest data is cached for faster loading on subsequent views.
-- **Responsive UI**: The extension's display adapts to changes in the DraftKings lobby, including scrolling and filter adjustments.
+- **Responsive UI**: The extension's display adapts to changes in the DraftKings lobby and post-entry pages, including scrolling and filter adjustments.
 - **Detailed Breakdown**: Provides a summary of opponent experience levels for each contest (B: Beginners, L: Low, M: Medium, H: High).
+- **Unified Experience**: Consistent functionality across different DraftKings pages ensures a seamless user experience.
 
 ## Installation Instructions
 
