@@ -1,12 +1,25 @@
 let blacklist = [];
 
+// Function to load the blacklist from storage
+function loadBlacklist() {
+  chrome.storage.sync.get(['blacklist'], (result) => {
+    blacklist = result.blacklist || [];
+    console.log('Loaded blacklist:', blacklist);
+    updateVisibleContests(); // Refresh the contest display after loading
+  });
+}
+
 // Listen for messages from the popup
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "updateBlacklist") {
     blacklist = request.blacklist;
+    console.log('Updated blacklist:', blacklist);
     updateVisibleContests(); // Refresh the contest display
   }
 });
+
+// Load the blacklist when the script initializes
+loadBlacklist();
 
 // Function to check if we're on the DraftKings lobby or post-entry page
 function isDraftKingsLobbyPage() {
@@ -370,6 +383,7 @@ function setupContestGridObserver() {
 // Main function to run when the content script is injected
 async function main() {
   if (isDraftKingsLobbyPage()) {
+    loadBlacklist(); // Load the blacklist
     setupContestGridObserver(); // Set up observer for changes
     // Initial scan after a delay to allow page to load completely
     setTimeout(handleContestGridChanges, 2000);
