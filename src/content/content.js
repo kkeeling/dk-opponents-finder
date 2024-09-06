@@ -137,6 +137,8 @@ function processContestDetails(html) {
         ? usernameElement.textContent.trim().toLowerCase()
         : "";
 
+      console.log(username);
+      console.log(blacklist);
       if (blacklist.includes(username)) {
         opponentInfo.blacklistedOpponents.push(username);
       }
