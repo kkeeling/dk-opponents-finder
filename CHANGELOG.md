@@ -8,20 +8,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.1] - 2024-09-06
 
 ### Added
+
 - Support for the "https://www.draftkings.com/postentry" page.
 
 ### Changed
+
 - Unified functionality for lobby and post-entry pages.
 - Updated contest grid scanning to accommodate both page layouts.
 - Adjusted `scanLobbyPage()` function to handle different cell structures.
 - Modified `renderOpponentInfo()` function to handle potentially missing information.
 
 ### Fixed
+
 - Improved contest grid scanning for the post-entry page.
 
 ## [1.0.0] - 2024-09-04
 
 ### Added
+
 - Initial release of the DraftKings Opponents Finder Chrome Extension.
 - Contest scanning functionality to analyze DraftKings lobby.
 - Opponent analysis based on experience levels (beginner, low, medium, high).
