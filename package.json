@@ -1,6 +1,6 @@
 {
   "name": "dk-opponents-finder",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Chrome extension to find less experienced opponents on DraftKings",
   "main": "index.js",
   "scripts": {
