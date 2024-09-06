@@ -125,6 +125,7 @@ function processContestDetails(html) {
   }
 
   const entrants = entrantsTable.querySelectorAll("tr");
+  const totalEntrants = entrants.length;
 
   const opponentInfo = {
     beginner: 0,
@@ -134,7 +135,8 @@ function processContestDetails(html) {
     totalScore: 0,
     maxScore: 0,
     rating: 0,
-    blacklistedOpponents: [], // New field to store blacklisted opponents
+    blacklistedOpponents: [],
+    totalEntrants: totalEntrants
   };
 
   entrants.forEach((entrant) => {
@@ -149,7 +151,8 @@ function processContestDetails(html) {
         ? usernameElement.textContent.trim().toLowerCase()
         : "";
 
-      if (blacklist.includes(username)) {
+      // Only apply blacklist for contests with 5 or fewer entrants
+      if (totalEntrants <= 5 && blacklist.includes(username)) {
         opponentInfo.blacklistedOpponents.push(username);
       }
 
@@ -175,7 +178,7 @@ function processContestDetails(html) {
 
   // Calculate rating
   opponentInfo.rating =
-    opponentInfo.blacklistedOpponents.length > 0
+    totalEntrants <= 5 && opponentInfo.blacklistedOpponents.length > 0
       ? "X"
       : opponentInfo.maxScore > 0
       ? Math.round((opponentInfo.totalScore / opponentInfo.maxScore) * 100)
