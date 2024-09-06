@@ -11,8 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
   chrome.storage.sync.get(['extensionEnabled', 'blacklist'], (data) => {
     const enabled = data.extensionEnabled ?? true; // Default to enabled if not set
     updateUI(enabled);
-    blacklist = data.blacklist || [];
-    displayBlacklist();
+    blacklist = data.blacklist || []; // Load the blacklist
+    displayBlacklist(); // Display the loaded blacklist
   });
 
   // Toggle the extension state when the button is clicked
@@ -41,19 +41,25 @@ document.addEventListener('DOMContentLoaded', () => {
     username = username.trim().toLowerCase();
     if (username && !blacklist.includes(username)) {
       blacklist.push(username);
-      saveBlacklist();
+      saveBlacklist(); // Save after adding
       displayBlacklist();
     }
   }
 
   function removeFromBlacklist(username) {
     blacklist = blacklist.filter(u => u !== username);
-    saveBlacklist();
+    saveBlacklist(); // Save after removing
     displayBlacklist();
   }
 
   function saveBlacklist() {
-    chrome.storage.sync.set({ blacklist });
+    chrome.storage.sync.set({ blacklist }, () => {
+      if (chrome.runtime.lastError) {
+        console.error('Error saving blacklist:', chrome.runtime.lastError);
+      } else {
+        console.log('Blacklist saved successfully');
+      }
+    });
   }
 
   function displayBlacklist() {
