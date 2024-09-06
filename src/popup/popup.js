@@ -58,6 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Error saving blacklist:', chrome.runtime.lastError);
       } else {
         console.log('Blacklist saved successfully');
+        sendBlacklistToContentScript(); // Send updated blacklist to content script
       }
     });
   }
@@ -73,6 +74,12 @@ document.addEventListener('DOMContentLoaded', () => {
       removeButton.onclick = () => removeFromBlacklist(username);
       li.appendChild(removeButton);
       blacklistElement.appendChild(li);
+    });
+  }
+
+  function sendBlacklistToContentScript() {
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, {action: "updateBlacklist", blacklist: blacklist});
     });
   }
 });

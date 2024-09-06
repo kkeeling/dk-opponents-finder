@@ -1,3 +1,13 @@
+let blacklist = [];
+
+// Listen for messages from the popup
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.action === 'updateBlacklist') {
+    blacklist = request.blacklist;
+    updateVisibleContests(); // Refresh the contest display
+  }
+});
+
 // Function to check if we're on the DraftKings lobby or post-entry page
 function isDraftKingsLobbyPage() {
   return (
@@ -112,6 +122,7 @@ function processContestDetails(html) {
     totalScore: 0,
     maxScore: 0,
     rating: 0,
+    blacklistedOpponents: [], // New field to store blacklisted opponents
   };
 
   entrants.forEach((entrant) => {
@@ -119,6 +130,13 @@ function processContestDetails(html) {
     cells.forEach((cell) => {
       if (cell.classList.contains("empty-user")) {
         return; // Skip empty slots
+      }
+
+      const usernameElement = cell.querySelector('.player-name');
+      const username = usernameElement ? usernameElement.textContent.trim().toLowerCase() : '';
+
+      if (blacklist.includes(username)) {
+        opponentInfo.blacklistedOpponents.push(username);
       }
 
       const experienceIcon = cell.querySelector(
@@ -142,10 +160,10 @@ function processContestDetails(html) {
   });
 
   // Calculate rating
-  opponentInfo.rating =
-    opponentInfo.maxScore > 0
+  opponentInfo.rating = opponentInfo.blacklistedOpponents.length > 0 ? 'X' :
+    (opponentInfo.maxScore > 0
       ? Math.round((opponentInfo.totalScore / opponentInfo.maxScore) * 100)
-      : 0;
+      : 0);
 
   return opponentInfo;
 }
@@ -203,25 +221,34 @@ function renderOpponentInfo(contest) {
     height: 100%;
   `;
 
-  if (contest.opponentInfo && contest.opponentInfo.rating !== undefined) {
-    const ratingColor =
-      contest.opponentInfo.rating < 33
-        ? "green"
-        : contest.opponentInfo.rating < 66
-        ? "orange"
-        : "red";
+  if (contest.opponentInfo) {
+    if (contest.opponentInfo.rating === 'X') {
+      container.innerHTML = `
+        <span style="font-weight: bold; color: red; margin-bottom: 2px;">
+          X
+        </span>
+        <span style="font-size: 9px; color: #888;">
+          Blacklisted: ${contest.opponentInfo.blacklistedOpponents.join(', ')}
+        </span>
+      `;
+    } else {
+      const ratingColor =
+        contest.opponentInfo.rating < 33
+          ? "green"
+          : contest.opponentInfo.rating < 66
+          ? "orange"
+          : "red";
 
-    container.innerHTML = `
-      <span style="font-weight: bold; color: ${ratingColor}; margin-bottom: 2px;">
-        ${contest.opponentInfo.rating}%
-      </span>
-    `;
-  } else if (contest.opponentInfo) {
-    container.innerHTML = `
-      <span style="font-weight: bold; color: #888;">
-        Info Available
-      </span>
-    `;
+      container.innerHTML = `
+        <span style="font-weight: bold; color: ${ratingColor}; margin-bottom: 2px;">
+          ${contest.opponentInfo.rating}%
+        </span>
+        <span style="font-size: 9px; color: #888;">
+          B:${contest.opponentInfo.beginner} L:${contest.opponentInfo.lowExperience} 
+          M:${contest.opponentInfo.mediumExperience} H:${contest.opponentInfo.highExperience}
+        </span>
+      `;
+    }
   } else {
     container.innerHTML = `
       <span style="font-weight: bold; color: #888;">
